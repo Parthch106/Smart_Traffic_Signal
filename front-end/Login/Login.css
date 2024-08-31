@@ -1,0 +1,98 @@
+.wrapper
+{
+    
+    position: relative;
+    height: 400px;
+    width:420px;
+    border-radius: 10px;
+    
+}
+.heading
+{
+    text-align: center;
+    
+}
+.username {
+    display: flex;
+    justify-content: center;
+}
+
+.password
+{
+    display: flex;
+    justify-content: center;
+}
+.username>input{
+    width: 80%;
+    height: 40px;
+    border-radius: 40px;
+    background: transparent;
+    border-color: whitesmoke;
+    margin: 0px 0;
+    
+}
+
+.password>input{
+    width: 80%;
+    height: 40px;
+    border-radius: 40px;
+    background: transparent;
+    border-color: whitesmoke;
+    margin: 30px 0;
+}
+.icon1
+{
+    position: relative;
+    top: 15px;
+    right: 25px;
+}
+.icon2
+{
+    position: relative;
+    top:45px;
+    right:25px
+}
+.checkbox
+{
+    display: flex;
+    justify-content: space-evenly;
+    font-size: 14.5px;
+    margin:-15px 0 15px;
+    
+}
+
+.login-btn
+{
+    display: flex;
+    justify-content: center;
+    
+
+}
+button
+{
+    width: 85%;
+    height: 45px;
+    border-radius: 40px;
+    cursor: pointer;
+
+}
+.account-register{
+    display: flex;
+    justify-content: center;
+}
+.checkbox1
+{
+    margin: 15px 20px 15px 0px;
+    /* margin-left: 15px; */
+
+    
+}
+.form
+{
+    display: inline;
+
+}
+h1
+{
+    color:white
+}
