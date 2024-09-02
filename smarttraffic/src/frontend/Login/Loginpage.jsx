@@ -18,7 +18,7 @@ export default function Loginpage() {
         </div>
         <div className="checkbox">
             <label><input type="checkbox" />Remember Me</label>
-            <a href="#">Forgot Password</a>
+            <a href="/">Forgot Password</a>
         </div>
         <div className="login-btn">
             <button>Login</button>
