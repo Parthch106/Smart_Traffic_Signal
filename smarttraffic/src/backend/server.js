@@ -1,128 +1,67 @@
-// To connect with your MongoDB database
-const mongoose = require('mongoose');
-const db = 'SmartTraffic_database';
-
-async function connectToDatabase() {
-    try {
-        await mongoose.connect('mongodb+srv://parth106:test123@cluster0.v0jm5wd.mongodb.net/SmartTraffic_database', {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,    
-            dbName: db
-        });
-        console.log('Connected to your',db);
-    } catch (error) {
-        console.error('Error connecting to MongoDB:', error);
-    }
-}
-
-connectToDatabase();
-
-// Schema for users of the app
-const UserSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true,
-    },
-    email: {
-        type: String,
-        required: true,
-        unique: true,
-    },
-	password: {
-        type: String,
-        required: true,
-        unique: true,
-    },
-	confirmPassword: {
-        type: String,
-        required: true,
-    },
-	phone: {
-        type: Number,
-        required: true,
-        unique: true,
-    },
-    
-});
-
-const User = mongoose.model('User', UserSchema);
-
-// For backend and express
+require('dotenv').config();
 const express = require('express');
 const app = express();
-const cors = require("cors");
+const path = require('path');
+const cors = require('cors');
+const corsOptions = require('./config/corsOptions');
+const { logger } = require('./middleware/logEvents');
+const errorHandler = require('./middleware/errorHandler');
+const verifyJWT = require('./middleware/verifyJWT');
+const cookieParser = require('cookie-parser');
+const credentials = require('./middleware/credentials');
+const mongoose = require('mongoose');
+const connectDB = require('./config/dbConn');
+const PORT = process.env.PORT || 3500;
 
+// Connect to MongoDB
+connectDB();
+
+// custom middleware logger
+app.use(logger);
+
+// Handle options credentials check - before CORS!
+// and fetch cookies credentials requirement
+app.use(credentials);
+
+// Cross Origin Resource Sharing
+app.use(cors(corsOptions));
+
+// built-in middleware to handle urlencoded form data
+app.use(express.urlencoded({ extended: false }));
+
+// built-in middleware for json 
 app.use(express.json());
-app.use(cors());
 
-app.get("/", (req, res) => {
-    res.send("App is Working");
-});
+//middleware for cookies
+app.use(cookieParser());
 
-app.post("/signup", async (req, res) => {
-    try {
-        const user = new User(req.body);
-        const result = await user.save();
-        res.send(result);
-        console.log(result);
-    } catch (error) {
-        console.error("Error registering user:", error);
-        res.status(500).send("Something went wrong");
+//serve static files
+app.use('/', express.static(path.join(__dirname, '/public')));
+
+// routes
+app.use('/', require('./routes/root'));
+app.use('/register', require('./routes/register'));
+app.use('/auth', require('./routes/auth'));
+app.use('/refresh', require('./routes/refresh'));
+app.use('/logout', require('./routes/logout'));
+
+app.use(verifyJWT);
+app.use('/employees', require('./routes/api/employees'));
+
+app.all('*', (req, res) => {
+    res.status(404);
+    if (req.accepts('html')) {
+        res.sendFile(path.join(__dirname, 'views', '404.html'));
+    } else if (req.accepts('json')) {
+        res.json({ "error": "404 Not Found" });
+    } else {
+        res.type('txt').send("404 Not Found");
     }
 });
 
-app.get("/check-email/:email", async (req, res) => {
-    try {
-        const { email } = req.params;
-        const existingUser = await User.findOne({ email });
-        
-        // If an existing user is found with the provided email
-        if (existingUser) {
-            res.json({ exists: true });
-        } else {
-            res.json({ exists: false });
-        }
-    } catch (error) {
-        console.error("Error checking email:", error);
-        res.status(500).json({ error: "Internal server error" });
-    }
-});
+app.use(errorHandler);
 
-app.get("/check-password/:password", async (req, res) => {
-    try {
-        const { password } = req.params;
-        const existingUser = await User.findOne({ password });
-        
-        // If an existing user is found with the provided email
-        if (existingUser) {
-            res.json({ exists: true });
-        } else {
-            res.json({ exists: false });
-        }
-    } catch (error) {
-        console.error("Error checking Phone number:", error);
-        res.status(500).json({ error: "Internal server error" });
-    }
-});
-
-app.get("/check-phone/:phone", async (req, res) => {
-    try {
-        const { phone } = req.params;
-        const existingUser = await User.findOne({ phone });
-        
-        // If an existing user is found with the provided email
-        if (existingUser) {
-            res.json({ exists: true });
-        } else {
-            res.json({ exists: false });
-        }
-    } catch (error) {
-        console.error("Error checking Phone number:", error);
-        res.status(500).json({ error: "Internal server error" });
-    }
-});
-
-const port = 5000;
-app.listen(port, () => {
-    console.log(`App listening at http://localhost:${port}`);
+mongoose.connection.once('open', () => {
+    console.log('Connected to MongoDB');
+    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 });
