@@ -1,0 +1,52 @@
+.search-data {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 40%;
+}
+
+.search-map {
+    display: flex;
+    flex-direction: row;
+}
+
+.map {
+    height: 100%;
+    width: 60%;
+    padding-top: 5vh;
+}
+
+.saved-data{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.t1 {
+    color: black;
+    background-color: rgb(250, 250, 250);
+    width: 80%;
+    text-align: center;
+}
+
+th {
+    background-color: #04AA6D;
+    color: white;
+}
+
+.change-cir {
+    background-color:purple;
+    color: aliceblue;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 20px;
+}
+
+.fetch-cir{
+    background-color:purple;
+    color: aliceblue;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 20px;
+}

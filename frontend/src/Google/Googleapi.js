@@ -1,9 +1,11 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { GoogleMap, LoadScript, Marker, Autocomplete } from '@react-google-maps/api';
+import './gapi.css'
+import axios from 'axios' 
 
 const mapContainerStyle = {
-  width: '100%',
-  height: '100%',
+  width: '55vw',
+  height: '80vh',
 };
 
 const center = {
@@ -36,22 +38,98 @@ function Googleapi() {
     mapRef.current = map;
   }, []);
 
+  const [circle, setCircle] = useState('');
+  const [signals, setSignals] = useState({
+    signal1: '',
+    signal2: '',
+    signal3: '',
+    signal4: ''
+  });
+  const [postMessage, setPostMessage] = useState('');
+  const [editMode, setEditMode] = useState(false); 
+  const [specificCircleData, setSpecificCircleData] = useState(null);
+
+  // Handle input change for signal times
+  const handleSignalChange = (e) => {
+    const { name, value } = e.target;
+    setSignals({
+      ...signals,
+      [name]: value
+    });
+  };
+
+  // Handle POST request to save circle with manually entered signal times
+  const handlePostRequest = async () => {
+    if(!circle){
+      setPostMessage('Please enter the circle name');
+      return;
+    }
+    else if (!signals.signal1 || !signals.signal2 || !signals.signal3 || !signals.signal4) {
+      setPostMessage('Please enter all signal times.');
+      return;
+    }
+
+    try {
+      const response = await axios.post('http://127.0.0.1:5000/api/data', {
+        circle,
+        signals: {
+          signal1: parseInt(signals.signal1),
+          signal2: parseInt(signals.signal2),
+          signal3: parseInt(signals.signal3),
+          signal4: parseInt(signals.signal4),
+        }
+      });
+      setPostMessage(response.data.message);
+      setEditMode(false); // Hide the inputs again after submitting
+      fetchSpecificCircleData(circle);  // Fetch the data for the specific circle
+    } catch (error) {
+      console.error('Error with POST request:', error);
+    }
+  };
+
+  // Handle GET request to fetch saved circle data
+  const fetchSpecificCircleData = async (circleName) => {
+    try {
+      const response = await axios.get(`http://127.0.0.1:5000/api/data/${circleName}`);
+      setSpecificCircleData(response.data); // Store specific circle data
+    } catch (error) {
+      console.error('Error fetching specific circle data:', error);
+    }
+  };
+
+  const handleEditMode = () => {
+    setEditMode(true);  // Show the circle input field
+    setCircle('');      // Reset the circle input field
+    setSignals({
+      signal1: '',
+      signal2: '',
+      signal3: '',
+      signal4: ''
+    }); // Reset the signal input fields
+    setPostMessage('');  // Clear any previous message
+  };
+
+  // Fetch saved data when the component mounts
+  useEffect(() => {
+    fetchSpecificCircleData();
+  }, []);
+
   return (
     <LoadScript
       googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY} 
-      libraries={['places']}
-    >
-      <div style={{ display: 'flex', height: '90vh' ,boxSizing : 'border-box' , }}>
-        {/* Left side content */}
-        <div style={{ flex: 1, padding: '20px' }}>
+      libraries={['places']}>
+      <div className='search-map'>
+        <div className='search-data'>
+          <div className='search'>
           <h1>Search Location</h1>
           <Autocomplete
             onLoad={(autocomplete) => (autocompleteRef.current = autocomplete)}
-            onPlaceChanged={onPlaceChanged}
-          >
+            onPlaceChanged={onPlaceChanged}>
             <input
               type="text"
               placeholder="Search a location"
+              // value={circle}
+              // onChange={(e) => setCircle(e.target.value)}
               style={{
                 width: '300px',
                 height: '40px',
@@ -60,15 +138,114 @@ function Googleapi() {
               }}
             />
           </Autocomplete>
-        </div>
+          </div>
+          <h1>Circle Signal Timing Data</h1>
 
-        <div style={{ width: '50%', height: '90%', paddingTop: '100px' }}>
+          <h3>Get Specific Location Circle Data</h3>
+      <input
+        type="text"
+        placeholder="Enter circle location name"
+        value={circle}
+        onChange={(e) => setCircle(e.target.value)}
+        style={{ display: 'block', marginBottom: '10px' }}
+      />
+      <button className='fetch-cir' onClick={() => fetchSpecificCircleData(circle)}>Fetch Circle Data</button>
+
+      <h3>Want to change circle signals time?</h3>
+      {!editMode && (
+        <button className='change-cir' onClick={handleEditMode} >
+          Change Circle Data
+        </button>
+      )}
+
+      {/* If we're in edit mode, show the circle input */}
+      {editMode && (
+        <>
+          <h3>Enter Circle Name</h3>
+          <input className='cir'
+            type="text"
+            value={circle}
+            onChange={(e) => setCircle(e.target.value)}
+            placeholder="Enter circle name"
+            style={{ display: 'block', marginBottom: '10px' }}
+          />
+
+          {/* Show signal inputs only if the circle name is entered */}
+          {circle && (
+            <>
+              <h3>Enter Signal Times</h3>
+              <input className='signal'
+                type="number"
+                name="signal1"
+                value={signals.signal1}
+                onChange={handleSignalChange}
+                placeholder="Enter time for Signal 1"
+                style={{ display: 'block', marginBottom: '10px' }}
+              />
+              <input className='signal'
+                type="number"
+                name="signal2"
+                value={signals.signal2}
+                onChange={handleSignalChange}
+                placeholder="Enter time for Signal 2"
+                style={{ display: 'block', marginBottom: '10px' }}
+              />
+              <input className='signal'
+                type="number"
+                name="signal3"
+                value={signals.signal3}
+                onChange={handleSignalChange}
+                placeholder="Enter time for Signal 3"
+                style={{ display: 'block', marginBottom: '10px' }}
+              />
+              <input className='signal'
+                type="number"
+                name="signal4"
+                value={signals.signal4}
+                onChange={handleSignalChange}
+                placeholder="Enter time for Signal 4"
+                style={{ display: 'block', marginBottom: '10px' }}
+              />
+
+              <button onClick={handlePostRequest}>Save Circle Data</button>
+              <p>{postMessage}</p>
+            </>
+          )}
+        </>
+      )}
+
+      {/* Show specific circle data if available */}
+      {specificCircleData ? (
+        <table className='t1'>
+          <thead>
+            <tr>
+              <th>Circle Name</th>
+              <th>Signal 1 (Seconds)</th>
+              <th>Signal 2 (Seconds)</th>
+              <th>Signal 3 (Seconds)</th>
+              <th>Signal 4 (Seconds)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{circle}</td>
+              <td>{specificCircleData.signal1}</td>
+              <td>{specificCircleData.signal2}</td>
+              <td>{specificCircleData.signal3}</td>
+              <td>{specificCircleData.signal4}</td>
+            </tr>
+          </tbody>
+        </table>
+      ) : (
+        <p>Enter a circle name to fetch its data.</p>
+      )}
+        </div>
+        <div className='map'>
           <GoogleMap
             mapContainerStyle={mapContainerStyle}
             center={location}
             zoom={12}
-            onLoad={onLoad}
-          >
+            onLoad={onLoad}>
             <Marker position={location} />
           </GoogleMap>
         </div>

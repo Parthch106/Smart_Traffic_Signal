@@ -65,7 +65,7 @@ function NavBar() {
                 className="nav-links"
                 onClick={handleClick}
               >
-                AI
+                AI(Demo)
               </NavLink>
             </li>
             <li>

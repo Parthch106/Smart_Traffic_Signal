@@ -2,7 +2,8 @@
 
 body{
   font-family: "Poppins", sans-serif;
-  background: linear-gradient(#64d3e6, #313dbd);
+  /* background: linear-gradient(#64d3e6, #313dbd); */
+  background-color: white;
   margin: 0;
   padding: 0;
 }
