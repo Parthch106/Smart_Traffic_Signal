@@ -3,6 +3,7 @@ import { FaEnvelope, FaLock, FaUser } from "react-icons/fa";
 import { Link, useNavigate } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify';
 import { handleError, handleSuccess } from '../utils';
+import './loginsignup.css'
 
 function Signup() {
 
@@ -55,10 +56,11 @@ function Signup() {
         }
     }
     return (
+        <div className='signup-container'>
         <div className='container'>
-            <h1>Signup</h1>
             <form onSubmit={handleSignup}>
                 <div>
+                <h1 className='h1'>Signup</h1>
                     <label htmlFor='name'>Name</label>
                     <input
                         onChange={handleChange}
@@ -89,12 +91,13 @@ function Signup() {
                         value={signupInfo.password}
                     /><FaLock className='icon1'/>
                 </div>
-                <button type='submit'>Signup</button>
+                <button className='button1' type='submit'>Signup</button>
                 <span>Already have an account ?
                     <Link to="/login">Login</Link>
                 </span>
             </form>
             <ToastContainer />
+        </div>
         </div>
     )
 }

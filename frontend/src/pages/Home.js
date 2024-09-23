@@ -1,60 +1,65 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
-import { handleError, handleSuccess } from '../utils';
-import { ToastContainer } from 'react-toastify';
+import './home.css'
+import NavBar from '../Navbar/NavBar';
+import axios from 'axios';
 
 function Home() {
+    
     const [loggedInUser, setLoggedInUser] = useState('');
-    const [products, setProducts] = useState('');
-    const navigate = useNavigate();
     useEffect(() => {
         setLoggedInUser(localStorage.getItem('loggedInUser'))
     }, [])
 
-    const handleLogout = (e) => {
-        localStorage.removeItem('token');
-        localStorage.removeItem('loggedInUser');
-        handleSuccess('User Loggedout');
-        setTimeout(() => {
-            navigate('/login');
-        }, 1000)
-    }
+    const [savedData, setSavedData] = useState({});
 
-    const fetchProducts = async () => {
+    const fetchSavedData = async () => {
         try {
-            const url = "http://localhost:8080/products";
-            const headers = {
-                headers: {
-                    'Authorization': localStorage.getItem('token')
-                }
-            }
-            const response = await fetch(url, headers);
-            const result = await response.json();
-            console.log(result);
-            setProducts(result);
-        } catch (err) {
-            handleError(err);
+          const response = await axios.get('http://127.0.0.1:5000/api/data');
+          setSavedData(response.data);
+        } catch (error) {
+          console.error('Error fetching saved data:', error);
         }
-    }
-    useEffect(() => {
-        fetchProducts()
-    }, [])
+      };
+      useEffect(() => {
+        fetchSavedData();
+      }, []);
 
     return (
         <div>
+        <NavBar></NavBar>
+        <div className='body-menu'>
             <h1>Welcome {loggedInUser}</h1>
-            <button onClick={handleLogout}>Logout</button>
             <div>
-                {
-                    products && products?.map((item, index) => (
-                        <ul key={index}>
-                            <span>{item.name} : {item.price}</span>
-                        </ul>
-                    ))
-                }
+            <h3>Saved Circles and Signals (GET request)</h3>
+      {Object.keys(savedData).length > 0 ? (
+        <table border="1" cellPadding="10" style={{ marginTop: '20px', borderCollapse: 'collapse' }}>
+          <thead>
+            <tr>
+              <th>Circle Name</th>
+              <th>Signal 1 (Seconds)</th>
+              <th>Signal 2 (Seconds)</th>
+              <th>Signal 3 (Seconds)</th>
+              <th>Signal 4 (Seconds)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {Object.entries(savedData).map(([circleName, signals], index) => (
+              <tr key={index}>
+                <td>{circleName}</td>
+                <td>{signals.signal1}</td>
+                <td>{signals.signal2}</td>
+                <td>{signals.signal3}</td>
+                <td>{signals.signal4}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ) : (
+        <p>No circles with signals available.</p>
+      )}
             </div>
-            <ToastContainer />
         </div>
+        </div> 
     )
 }
 

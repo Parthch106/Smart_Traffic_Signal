@@ -1,0 +1,20 @@
+{
+    "circle1": {
+        "signal1": 60,
+        "signal2": 90,
+        "signal3": 120,
+        "signal4": 150
+    },
+    "circle2": {
+        "signal1": 8,
+        "signal2": 10,
+        "signal3": 22,
+        "signal4": 6
+    },
+    "circle3": {
+        "signal1": 9,
+        "signal2": 16,
+        "signal3": 14,
+        "signal4": 3
+    }
+}
