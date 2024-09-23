@@ -1,0 +1,22 @@
+body {
+    overflow: hidden;
+}
+.Menu-bar {
+    display: flex;
+    flex: conten;
+    padding: 10px;
+    width: 100%;
+    justify-content: space-between;
+    background-color: blue;
+    align-items: center;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+.Menu-bar img {
+    border-radius: 20px;
+}
+
+.Menu-bar input {
+    width: 50%;
+    height: 50px;
+    border-radius: 20px;
+}
