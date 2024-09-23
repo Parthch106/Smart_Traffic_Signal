@@ -59,6 +59,7 @@ function Login() {
     }
 
     return (
+        <div className='login-container'>
         <div className='container'>
             <form onSubmit={handleLogin}>
                 <div>
@@ -85,13 +86,14 @@ function Login() {
                         value={loginInfo.password}
                     /><FaLock className='icon2'/>
                 </div>
-                <button type='submit'>Login</button>
+                <button className='button1' type='submit'>Login</button>
                 <span>Does't have an account ?
                     <Link to="/signup">Signup</Link>
                 </span>
             </form>
             <ToastContainer />
             </div>
+        </div>
 
         
     )

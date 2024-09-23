@@ -56,6 +56,7 @@ function Signup() {
         }
     }
     return (
+        <div className='signup-container'>
         <div className='container'>
             <form onSubmit={handleSignup}>
                 <div>
@@ -90,12 +91,13 @@ function Signup() {
                         value={signupInfo.password}
                     /><FaLock className='icon1'/>
                 </div>
-                <button type='submit'>Signup</button>
+                <button className='button1' type='submit'>Signup</button>
                 <span>Already have an account ?
                     <Link to="/login">Login</Link>
                 </span>
             </form>
             <ToastContainer />
+        </div>
         </div>
     )
 }

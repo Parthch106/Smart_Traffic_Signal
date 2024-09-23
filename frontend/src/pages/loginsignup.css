@@ -15,11 +15,14 @@ html,
 body{
   height: 100%;
   width: 100%;
+}
+.login-container,
+.signup-container {
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100vh; /* Ensures the form centers vertically */
 }
-
 .container{
     background-color: #FFF;
     padding: 32px 48px;
@@ -72,7 +75,7 @@ body{
     top:-30px;
     right:25px
 }
-button{
+.button1{
   background-color: purple;
   border: none;
   font-size: 20px;
