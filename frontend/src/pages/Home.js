@@ -30,9 +30,9 @@ function Home() {
         <div className='body-menu'>
             <h1>Welcome {loggedInUser}</h1>
             <div>
-            <h3>Saved Circles and Signals (GET request)</h3>
+            <h3>Circles Locations and Signals</h3>
       {Object.keys(savedData).length > 0 ? (
-        <table border="1" cellPadding="10" style={{ marginTop: '20px', borderCollapse: 'collapse' }}>
+        <table className='t1-home' border ='2' cellPadding="10" style={{ marginTop: '20px', borderCollapse: 'collapse' }}>
           <thead>
             <tr>
               <th>Circle Name</th>

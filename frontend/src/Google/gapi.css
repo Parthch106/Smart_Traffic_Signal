@@ -40,7 +40,10 @@ th {
     color: aliceblue;
     cursor: pointer;
     padding: 4px;
+    padding-left: 10px;
+    padding-right: 10px;
     border-radius: 20px;
+    border: 0px;
 }
 
 .fetch-cir{
@@ -48,5 +51,13 @@ th {
     color: aliceblue;
     cursor: pointer;
     padding: 4px;
+    padding-left: 10px;
+    padding-right: 10px;
     border-radius: 20px;
+    border: 0px;
+}
+
+.h3-gapi {
+    padding-top: 20px;
+    padding-bottom: 10px;
 }

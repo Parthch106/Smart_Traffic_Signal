@@ -139,7 +139,7 @@ function Googleapi() {
             />
           </Autocomplete>
           </div>
-          <h1>Circle Signal Timing Data</h1>
+          <h1>Location Circle Signal Timing Data</h1>
 
           <h3>Get Specific Location Circle Data</h3>
       <input
@@ -151,14 +151,13 @@ function Googleapi() {
       />
       <button className='fetch-cir' onClick={() => fetchSpecificCircleData(circle)}>Fetch Circle Data</button>
 
-      <h3>Want to change circle signals time?</h3>
+      <h3 className='h3-gapi'>Want to change circle signals time?</h3>
       {!editMode && (
         <button className='change-cir' onClick={handleEditMode} >
           Change Circle Data
         </button>
       )}
 
-      {/* If we're in edit mode, show the circle input */}
       {editMode && (
         <>
           <h3>Enter Circle Name</h3>
@@ -170,7 +169,6 @@ function Googleapi() {
             style={{ display: 'block', marginBottom: '10px' }}
           />
 
-          {/* Show signal inputs only if the circle name is entered */}
           {circle && (
             <>
               <h3>Enter Signal Times</h3>
@@ -207,14 +205,13 @@ function Googleapi() {
                 style={{ display: 'block', marginBottom: '10px' }}
               />
 
-              <button onClick={handlePostRequest}>Save Circle Data</button>
+              <button className='fetch-cir' onClick={handlePostRequest}>Save Circle Data</button>
               <p>{postMessage}</p>
             </>
           )}
         </>
       )}
-
-      {/* Show specific circle data if available */}
+      <h3 className='h3-gapi'>Circle Signal Data Table</h3>
       {specificCircleData ? (
         <table className='t1'>
           <thead>
