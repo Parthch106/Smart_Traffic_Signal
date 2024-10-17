@@ -1,9 +1,9 @@
 {
     "circle1": {
-        "signal1": 60,
-        "signal2": 90,
+        "signal1": 45,
+        "signal2": 60,
         "signal3": 120,
-        "signal4": 150
+        "signal4": 170
     },
     "circle2": {
         "signal1": 8,
