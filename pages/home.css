@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Playwrite+GB+S:ital,wght@0,100..400;1,100..400&family=Sixtyfour+Convergence&display=swap');
+.home-container {
+    text-align: center;
+    padding: 50px;
+}
+
+.welcome-message {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.user-greeting {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+    color: #666;
+}
+
+.slogan {
+    font-size: 1.5rem;
+    color: #555;
+    margin-top: 20px;
+}
+h1
+{
+    font-family: "Playwrite GB S", cursive;
+}

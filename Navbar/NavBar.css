@@ -1,0 +1,116 @@
+/* Resetting default styles */
+@import url('https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap');
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body styling */
+/* body {
+  font-family: "Protest Strike", sans-serif;
+} */
+p
+{
+  font-family: "Protest Strike", sans-serif;
+
+}
+
+/* Navbar container */
+.nav-container {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center; /* Align items vertically */
+  padding: 10px 20px;
+  background-color: #A2D2DF; /* Updated background color */
+}
+
+/* Navbar Menu */
+.nav-menu {
+  display: flex;
+  list-style: none; /* Remove bullet points */
+  margin: 0;
+}
+
+/* Navbar Items */
+.nav-item {
+  padding: 10px 20px;
+  background-color: #A2D2DF;
+ /* Match navbar background */
+}
+
+/* Navbar Links */
+.nav-links {
+  color: black; /* Red text */
+  text-decoration: none;
+  font-size: 18px;
+  font-family: 'Times New Roman', serif; /* Times New Roman font */
+  font-weight: bold; /* Bold text */
+  transition: color 0.3s ease;
+}
+
+.nav-links:hover {
+  color: white; /* White on hover */
+  transition: color 0.3s ease;
+}
+
+/* Logout Button Styling */
+#logout .button2 {
+  background-color: transparent;
+  color: black; /* Red text */
+  /* border: 2px solid red; */
+  padding: 8px 16px;
+  font-size: 16px;
+  font-family: 'Times New Roman', serif; /* Times New Roman font */
+  font-weight: bold; /* Bold text */
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#logout .button2:hover {
+  
+  color: white; /* White text */
+  transition: all 0.3s ease;
+}
+
+/* Hamburger Menu Icon for Mobile */
+.nav-icon {
+  display: none;
+  cursor: pointer;
+  /* color: red; Red icon */
+  font-size: 28px;
+}
+
+/* Responsive Styling */
+@media (max-width: 768px) {
+  .nav-menu {
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    right: 0;
+    width: 100%;
+    background-color: #A2D2DF; /* Updated background color */
+    height: 0;
+    overflow: hidden;
+    transition: height 0.5s ease;
+  }
+
+  .nav-menu.active {
+    height: 220px; /* Height when expanded */
+  }
+
+  .nav-item {
+    text-align: center;
+    padding: 20px;
+  }
+
+  .nav-icon {
+    display: block;
+  }
+}
+
+/* Logout section background color */
+#logout {
+  background-color: #A2D2DF; /* Match navbar background */
+}
