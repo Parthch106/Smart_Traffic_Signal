@@ -30,7 +30,7 @@ function Home() {
         <div className='body-menu'>
             <h1>Welcome {loggedInUser}</h1>
             <div>
-            
+            <h3>Circles Locations and Signals</h3>
       {Object.keys(savedData).length > 0 ? (
         <table border="1" cellPadding="10" style={{ marginTop: '20px', borderCollapse: 'collapse' }}>
           <thead>
