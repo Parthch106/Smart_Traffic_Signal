@@ -36,7 +36,7 @@ function Ai() {
   useEffect(() => {
     async function fetchTrafficData() {
       try {
-        const response = await axios.get('http://127.0.0.1:5000/api/data'); // Update API endpoint if needed
+        const response = await axios.get('http://127.0.0.1:5000/api/data'); 
         if (response.data) {
           setTrafficData(response.data);
           setLoading(false);
