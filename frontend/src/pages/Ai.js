@@ -99,7 +99,7 @@ function Ai() {
           ) : (
             <p>No traffic data available.</p>
           )} */}
-          <div>
+          {/* <div>
             <h3>Circles Locations and Signals</h3>
             {Object.keys(trafficData).length > 0 ? (
               <table className='t1-home' border ='2' cellPadding="10" style={{ marginTop: '20px', borderCollapse: 'collapse' }}>
@@ -127,7 +127,7 @@ function Ai() {
             ) : (
               <p>No circles with signals available.</p>
             )}
-            </div>
+            </div> */}
 
           {/* Adding Local Video */}
           <div className="video-container">
