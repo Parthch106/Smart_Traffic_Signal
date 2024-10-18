@@ -1,3 +1,8 @@
 {
-    "Time": 33
+    "circle1": {
+        "signal1": 33,
+        "signal2": null,
+        "signal3": null,
+        "signal4": null
+    }
 }

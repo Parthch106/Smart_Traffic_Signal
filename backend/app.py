@@ -124,14 +124,29 @@ model_path = 'yolov5s.pt'
 predictor_path = 'vehicle_time_predictor.pkl'
 vehicle_classes = ['motorcycle', 'truck', 'car', 'bus']
 
-predicted_times = {'Time':predict_time_from_video(video_path, model_path, predictor_path, vehicle_classes)}
-print(predicted_times)
+predicted_times = {'Time': predict_time_from_video(video_path, model_path, predictor_path, vehicle_classes)}
 
+# Convert the predicted time to a list if needed (ensure it's iterable)
+time_list = predicted_times['Time'] if isinstance(predicted_times['Time'], list) else [predicted_times['Time']]
+
+# Restructure the data into the desired format, handle missing signals
+formatted_data = {
+    "circle1": {
+        "signal1": time_list[0] if len(time_list) > 0 else None,
+        "signal2": time_list[1] if len(time_list) > 1 else None,
+        "signal3": time_list[2] if len(time_list) > 2 else None,
+        "signal4": time_list[3] if len(time_list) > 3 else None
+    }
+}
+
+# Path to save the model data
 MODEL_DATA_PATH = os.path.join(os.getcwd(), 'data', 'model_data.json')
+
 def test_save():
     try:
+        # Write the formatted data to the json file
         with open(MODEL_DATA_PATH, 'w') as f:
-            json.dump(predicted_times, f, indent=4)
+            json.dump(formatted_data, f, indent=4)
         print("Test data saved successfully.")
     except Exception as e:
         print(f"Error saving test data: {e}")
