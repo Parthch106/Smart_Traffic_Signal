@@ -76,10 +76,10 @@ body{
     right:25px
 }
 .button1{
-  background-color: purple;
+  background-color: #f5b921;
   border: none;
   font-size: 20px;
-  color: white;
+  color: rgb(0, 0, 0);
   border-radius: 5px;
   padding: 10px;
   cursor: pointer;

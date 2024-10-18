@@ -68,7 +68,7 @@ function NavBar() {
                 AI(Demo)
               </NavLink>
             </li>
-            <li>
+            <li className="nav-item">
             <div id="logout"><button className="button2" onClick={handleLogout}>Logout</button></div>
             </li>
           </ul>
