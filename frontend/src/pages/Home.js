@@ -48,7 +48,7 @@ function Home() {
                     className="welcome-message" 
                     style={{ fontSize: '2.5rem', color: '#4B0082', fontFamily: "Playwrite GB S ,cursive" }}
                 >
-                    Welcome to our website!
+                    Welcome to our home!!!!!
                 </h1>
                 {loggedInUser && (
                     <h2 
