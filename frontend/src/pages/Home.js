@@ -12,12 +12,12 @@ function Home() {
 
     const [savedData, setSavedData] = useState({});
 
-    const backgroundImages = [
-      'url(https://imgs.search.brave.com/PxNtGNHr8zj29bYd2p1iP4W3OAwaM5fbh77_souJH14/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvOTk4/NjU4ODMwL3Bob3Rv/L3RyYWZmaWNfamFt/LmpwZz9zPTYxMng2/MTImdz0wJms9MjAm/Yz1qbVhzME5zZFdZ/WkVfa25pb0NPOUNa/RVFxZG00LXllemZC/WlhGdElxTmJvPQ)',
-      'url(https://imgs.search.brave.com/-qslIUMUOyr9wR4p4k51sKr_vI1Xnt4OMk6_QCRILUI/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5jbm4uY29tL2Fw/aS92MS9pbWFnZXMv/c3RlbGxhci9wcm9k/LzIwMTAxODA4MzMx/OS1zbWFydC10cmFm/ZmljLWxpZ2h0cy10/aW1lLXRyYW5zZm9y/bWVkLmpwZz9xPXhf/Mix5XzAsaF8xMDc4/LHdfMTkxNSxjX2Ny/b3Avd18xMjgw)',
-      'url(https://imgs.search.brave.com/L99rEZewMiGYCajW6jdob1nUyc1029795C8UrapdQHc/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly93d3cu/ZS1jb25zeXN0ZW1z/LmNvbS9pbWFnZXMv/bWFya2V0cy9zbWFy/dC10cmFmZmljL3Nt/YXJ0LWNpdHktdHJh/ZmZpYy1tYW5hZ2Vt/ZW50LXN5c3RlbXMu/anBn)'
+//     const backgroundImages = [
+//       'url(https://imgs.search.brave.com/PxNtGNHr8zj29bYd2p1iP4W3OAwaM5fbh77_souJH14/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvOTk4/NjU4ODMwL3Bob3Rv/L3RyYWZmaWNfamFt/LmpwZz9zPTYxMng2/MTImdz0wJms9MjAm/Yz1qbVhzME5zZFdZ/WkVfa25pb0NPOUNa/RVFxZG00LXllemZC/WlhGdElxTmJvPQ)',
+//       'url(https://imgs.search.brave.com/-qslIUMUOyr9wR4p4k51sKr_vI1Xnt4OMk6_QCRILUI/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5jbm4uY29tL2Fw/aS92MS9pbWFnZXMv/c3RlbGxhci9wcm9k/LzIwMTAxODA4MzMx/OS1zbWFydC10cmFm/ZmljLWxpZ2h0cy10/aW1lLXRyYW5zZm9y/bWVkLmpwZz9xPXhf/Mix5XzAsaF8xMDc4/LHdfMTkxNSxjX2Ny/b3Avd18xMjgw)',
+//       'url(https://imgs.search.brave.com/L99rEZewMiGYCajW6jdob1nUyc1029795C8UrapdQHc/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly93d3cu/ZS1jb25zeXN0ZW1z/LmNvbS9pbWFnZXMv/bWFya2V0cy9zbWFy/dC10cmFmZmljL3Nt/YXJ0LWNpdHktdHJh/ZmZpYy1tYW5hZ2Vt/ZW50LXN5c3RlbXMu/anBn)'
   
-  ];
+//   ];
 
     const fetchSavedData = async () => {
         try {
@@ -37,7 +37,6 @@ function Home() {
         <div 
                 className="home-container" 
                 style={{
-                    backgroundImage: backgroundImages,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                     height: '100vh',
