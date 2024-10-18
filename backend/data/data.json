@@ -4,17 +4,5 @@
         "signal2": 60,
         "signal3": 120,
         "signal4": 170
-    },
-    "circle2": {
-        "signal1": 8,
-        "signal2": 10,
-        "signal3": 22,
-        "signal4": 6
-    },
-    "circle3": {
-        "signal1": 9,
-        "signal2": 16,
-        "signal3": 14,
-        "signal4": 3
     }
 }

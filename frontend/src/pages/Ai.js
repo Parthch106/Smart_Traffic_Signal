@@ -132,7 +132,7 @@ function Ai() {
           {/* Adding Local Video */}
           <div className="video-container">
             <video width="100%" height="auto" controls>
-              <source src="/test.mp4" type="video/mp4" />
+              <source src="https://www.youtube.com/watch?v=VIa0dLHjPrI"  />
               Your browser does not support the video tag.
             </video>
           </div>
@@ -141,13 +141,13 @@ function Ai() {
         {/* AI Prediction Section */}
         <section className="ai-prediction">
           <h3>AI Predicted Signal Timings</h3>
-          {Object.keys(predictedSignal).length > 0 ? (
+          {Object.keys(trafficData).length > 0 ? (
             <Line data={chartData} />
           ) : (
             <p>No AI prediction yet. Click the button below to run AI prediction.</p>
           )}
           <button onClick={runAIPrediction} className="run-ai-btn">
-            {Object.keys(predictedSignal).length > 0 ? 'Re-run AI Prediction' : 'Run AI Prediction'}
+             'Run AI Prediction'
           </button>
         </section>
       </div>
