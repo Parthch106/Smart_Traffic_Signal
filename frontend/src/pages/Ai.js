@@ -162,7 +162,6 @@ function Ai() {
           <h3>
             <FaTrafficLight /> Smart Traffic Management System – Video Overview
           </h3>
-
           {/* <div>
             <h3>Circles Locations and Signals</h3>
             {!loading && Object.keys(trafficData).length > 0 ? (
