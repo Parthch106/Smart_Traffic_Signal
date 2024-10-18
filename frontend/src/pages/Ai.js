@@ -27,24 +27,30 @@ ChartJS.register(
 );
 
 function Ai() {
-  const [trafficData, setTrafficData] = useState([]);
+  const [trafficData, setTrafficData] = useState({});
   const [predictedSignal, setPredictedSignal] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [signals, setSignals] = useState({
+    signal1: '',
+    signal2: '',
+    signal3: '',
+    signal4: ''
+  });
 
   // Fetching traffic data from API
   useEffect(() => {
     async function fetchTrafficData() {
       try {
-        const response = await axios.get('http://127.0.0.1:5000/api/data'); 
+        const response = await axios.get('http://127.0.0.1:5000/api/data');
         if (response.data) {
           setTrafficData(response.data);
-          setLoading(false);
         }
       } catch (err) {
         setError('Error fetching traffic data');
+        console.error('Error fetching traffic data', err);
+      } finally {
         setLoading(false);
-        console.error("Error fetching traffic data", err);
       }
     }
     fetchTrafficData();
@@ -54,10 +60,10 @@ function Ai() {
   const runAIPrediction = () => {
     // Example prediction logic (randomized values for demonstration)
     const prediction = {
-      signal1: Math.floor(Math.random() * 60 + 20),
-      signal2: Math.floor(Math.random() * 60 + 20),
-      signal3: Math.floor(Math.random() * 60 + 20),
-      signal4: Math.floor(Math.random() * 60 + 20),
+      signal1: parseInt(signals.signal1) || 33,
+      signal2: parseInt(signals.signal2) || 60,
+      signal3: parseInt(signals.signal3) || 120,
+      signal4: parseInt(signals.signal4) || 170,
     };
     setPredictedSignal(prediction);
   };
@@ -81,28 +87,20 @@ function Ai() {
       <NavBar />
       <div className="ai-container">
         <h2>AI-Powered Traffic Signal Prediction</h2>
-        <p>Our AI system uses traffic data to dynamically adjust signal timings, improving traffic flow and reducing congestion.</p>
+        <p>
+          Our AI system uses traffic data to dynamically adjust signal timings, improving traffic flow and reducing congestion.
+        </p>
 
         {/* Real-time Traffic Data Section */}
         <section className="traffic-status">
-          <h3><FaTrafficLight /> Smart Traffic Management System – Video Overview</h3>
-          {/* {loading ? (
-            <p>Loading real-time traffic data...</p>
-          ) : error ? (
-            <p>{error}</p>
-          ) : trafficData.length > 0 ? (
-            <ul>
-              {trafficData.map((data, index) => (
-                <li key={index}>Traffic at Signal {index + 1}: {data} vehicles</li>
-              ))}
-            </ul>
-          ) : (
-            <p>No traffic data available.</p>
-          )} */}
+          <h3>
+            <FaTrafficLight /> Smart Traffic Management System – Video Overview
+          </h3>
+
           <div>
             <h3>Circles Locations and Signals</h3>
-            {Object.keys(trafficData).length > 0 ? (
-              <table className='t1-home' border ='2' cellPadding="10" style={{ marginTop: '20px', borderCollapse: 'collapse' }}>
+            {!loading && Object.keys(trafficData).length > 0 ? (
+              <table className="t1-home" border="2" cellPadding="10" style={{ marginTop: '20px', borderCollapse: 'collapse' }}>
                 <thead>
                   <tr>
                     <th>Circle Name</th>
@@ -116,38 +114,42 @@ function Ai() {
                   {Object.entries(trafficData).map(([circleName, signals], index) => (
                     <tr key={index}>
                       <td>{circleName}</td>
-                      <td>{signals.signal1}</td>
-                      <td>{signals.signal2}</td>
-                      <td>{signals.signal3}</td>
-                      <td>{signals.signal4}</td>
+                      <td>{signals.signal1 || 'N/A'}</td>
+                      <td>{signals.signal2 || 'N/A'}</td>
+                      <td>{signals.signal3 || 'N/A'}</td>
+                      <td>{signals.signal4 || 'N/A'}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
+            ) : loading ? (
+              <p>Loading real-time traffic data...</p>
             ) : (
               <p>No circles with signals available.</p>
             )}
-            </div>
+          </div>
 
           {/* Adding Local Video */}
-          <div className="video-container">
-            <video width="100%" height="auto" controls>
-              <source src="https://www.youtube.com/watch?v=VIa0dLHjPrI"  />
+          {/* <div className="video-container">
+            <video controls="true">
+              <source src="https://www.youtube.com/watch?v=iJZcjZD0fw0" type="video/mp4"/>
               Your browser does not support the video tag.
             </video>
-          </div>
+          </div> */}
+          
+          <iframe width="100%" height="500" src="https://www.youtube.com/embed/iJZcjZD0fw0?si=vUJl4vWS1XTKAVnh" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
         </section>
 
         {/* AI Prediction Section */}
         <section className="ai-prediction">
           <h3>AI Predicted Signal Timings</h3>
-          {Object.keys(trafficData).length > 0 ? (
+          {Object.keys(predictedSignal).length > 0 ? (
             <Line data={chartData} />
           ) : (
             <p>No AI prediction yet. Click the button below to run AI prediction.</p>
           )}
           <button onClick={runAIPrediction} className="run-ai-btn">
-             'Run AI Prediction'
+            Run AI Prediction
           </button>
         </section>
       </div>

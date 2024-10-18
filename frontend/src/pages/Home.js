@@ -64,6 +64,7 @@ function Home() {
                     We are glad to have you here. Explore and enjoy our services.
                 </p>
             </div>
+            
         </div> 
     )
 }
