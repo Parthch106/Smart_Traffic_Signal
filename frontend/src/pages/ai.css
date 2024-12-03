@@ -120,3 +120,15 @@ video {
   width: 100%;
   border-radius: 8px;
 }
+.loading-icon {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

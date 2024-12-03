@@ -132,15 +132,35 @@ time_list = predicted_times['Time'] if isinstance(predicted_times['Time'], list)
 # Restructure the data into the desired format, handle missing signals
 formatted_data = {
     "circle1": {
-        "signal1": time_list[0] if len(time_list) > 0 else None,
-        "signal2": time_list[1] if len(time_list) > 1 else None,
-        "signal3": time_list[2] if len(time_list) > 2 else None,
-        "signal4": time_list[3] if len(time_list) > 3 else None
+        "signal1": time_list[0] if len(time_list) > 0 else None
     }
 }
 
 # Path to save the model data
 MODEL_DATA_PATH = os.path.join(os.getcwd(), 'data', 'model_data.json')
+
+@app.route('/api/predict', methods=['POST'])
+def predict_video():
+    try:
+        video_path = r'C:\Users\parth\Downloads\4_trimmed_0.mp4'  # Hardcoded path
+        model_path = 'yolov5s.pt'
+        predictor_path = 'vehicle_time_predictor.pkl'
+        vehicle_classes = ['motorcycle', 'truck', 'car', 'bus']
+
+        # Call the prediction function
+        predicted_time = predict_time_from_video(
+            video_path=video_path,
+            model_path=model_path,
+            predictor_path=predictor_path,
+            vehicle_classes=vehicle_classes
+        )
+
+        # Response to send back to the frontend
+        return jsonify({"predicted_time": predicted_time}), 200
+    except Exception as e:
+        print(f"Error during prediction: {e}")
+        return jsonify({"error": str(e)}), 500
+
 
 def test_save():
     try:

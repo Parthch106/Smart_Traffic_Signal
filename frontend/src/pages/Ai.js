@@ -3,7 +3,7 @@ import NavBar from '../Navbar/NavBar';
 import './ai.css';
 import { Bar } from 'react-chartjs-2';
 import axios from 'axios';
-import { FaTrafficLight } from 'react-icons/fa';
+import { FaTrafficLight , FaSpinner } from 'react-icons/fa';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -27,10 +27,12 @@ ChartJS.register(
 function Ai() {
   const [trafficData, setTrafficData] = useState({});
   const [modelData, setModelData] = useState({});
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [chartData, setChartData] = useState(null);
   const [showChart, setShowChart] = useState(false);
+  const [isLoadingPrediction, setIsLoadingPrediction] = useState(false); 
+  const [loading, setLoading] = useState(false);
+  const [responseMessage, setResponseMessage] = useState(null);
+  const [chartData, setChartData] = useState(null); // State for storing chart data
 
   // Fetching traffic data from API
   useEffect(() => {
@@ -48,104 +50,70 @@ function Ai() {
       }
     }
 
-    async function fetchModelData() {
-      try {
-        const response = await axios.get('http://127.0.0.1:5000/api/model_data');
-        if (response.data) {
-          setModelData(response.data);
-        }
-      } catch (err) {
-        setError('Error fetching model data');
-        console.error('Error fetching model data', err);
-      }
-    }
+    // async function fetchModelData() {
+    //   try {
+    //     const response = await axios.get('http://127.0.0.1:5000/api/model_data');
+    //     if (response.data) {
+    //       setModelData(response.data);
+    //     }
+    //   } catch (err) {
+    //     setError('Error fetching model data');
+    //     console.error('Error fetching model data', err);
+    //   }
+    // }
 
     fetchTrafficData();
-    fetchModelData();
+    // fetchModelData();
   }, []);
 
-  // Function to prepare chart data from fetched traffic and model data
-  const prepareChartData = () => {
-    const labels = Object.keys(trafficData); // Circle names
-    const signal1Data = [];
-    const signal2Data = [];
-    const signal3Data = [];
-    const signal4Data = [];
-    
-    const modelSignal1Data = [];
-    const modelSignal2Data = [];
-    const modelSignal3Data = [];
-    const modelSignal4Data = [];
+  const runAIPrediction = async () => {
+    setIsLoadingPrediction(true);
+    setResponseMessage(null);
+    setChartData(null); // Clear previous chart data before fetching new
 
-    // Loop through each circle and get signal timings from both trafficData and modelData
-    Object.values(trafficData).forEach((signals) => {
-      signal1Data.push(signals.signal1 || 0);
-      signal2Data.push(signals.signal2 || 0);
-      signal3Data.push(signals.signal3 || 0);
-      signal4Data.push(signals.signal4 || 0);
-    });
+    try {
+      // POST request to backend to get AI prediction
+      const response = await axios.post('http://127.0.0.1:5000/api/predict');
+      const predictedTime = response.data.predicted_time;
 
-    Object.values(modelData).forEach((signals) => {
-      modelSignal1Data.push(signals.signal1 || 0);
-      modelSignal2Data.push(signals.signal2 || 0);
-      modelSignal3Data.push(signals.signal3 || 0);
-      modelSignal4Data.push(signals.signal4 || 0);
-    });
+      const labels = Object.keys(trafficData); // Circle names
+      const signal1Data = [];
+      const signal2Data = [];
+      const signal3Data = [];
+      const signal4Data = [];
 
-    // Set up the chart data structure with both trafficData and modelData
-    const newChartData = {
-      labels: labels,
+      Object.values(trafficData).forEach((signals) => {
+        signal1Data.push(signals.signal1 || 0);
+        signal2Data.push(signals.signal2 || 0);
+        signal3Data.push(signals.signal3 || 0);
+        signal4Data.push(signals.signal4 || 0);
+      });
+
+      // Prepare the chart data 
+      const chartData = {
+        labels: labels,
       datasets: [
         {
-          label: 'Traffic Signal 1 (seconds)',
+          label: 'Actual signal data (seconds)',
           data: signal1Data,
           backgroundColor: 'rgba(255, 0, 0, 0.6)',
         },
         {
-          label: 'Model Signal 1 (seconds)',
-          data: modelSignal1Data,
-          backgroundColor: 'rgba(255, 159, 64, 0.6)',
-        },
-        {
-          label: 'Traffic Signal 2 (seconds)',
-          data: signal2Data,
-          backgroundColor: 'rgba(255, 0, 0, 0.6)',
-        },
-        {
-          label: 'Model Signal 2 (seconds)',
-          data: modelSignal2Data,
-          backgroundColor: 'rgba(255, 159, 64, 0.6)',
-        },
-        {
-          label: 'Traffic Signal 3 (seconds)',
-          data: signal3Data,
-          backgroundColor: 'rgba(255, 0, 0, 0.6)',
-        },
-        {
-          label: 'Model Signal 3 (seconds)',
-          data: modelSignal3Data,
-          backgroundColor: 'rgba(255, 159, 64, 0.6)',
-        },
-        {
-          label: 'Traffic Signal 4 (seconds)',
-          data: signal4Data,
-          backgroundColor: 'rgba(255, 0, 0, 0.6)',
-        },
-        {
-          label: 'Model Signal 4 (seconds)',
-          data: modelSignal4Data,
+          label: 'Predicted signal data (seconds)',
+          data: [predictedTime],
           backgroundColor: 'rgba(255, 159, 64, 0.6)',
         },
       ],
-    };
+      };
 
-    setChartData(newChartData);
-  };
-
-  // Function to handle AI prediction and show the chart
-  const runAIPrediction = () => {
-    prepareChartData(); // Prepare the chart data when the button is clicked
-    setShowChart(true); // Show the chart
+      setChartData(chartData); // Set the chart data to trigger chart display
+      setResponseMessage(`Prediction successful: ${predictedTime} seconds`); // Display success message
+    } catch (error) {
+      console.error('Error running AI prediction:', error);
+      setResponseMessage('Error running AI prediction. Please check the backend logs.');
+    } finally {
+      setIsLoadingPrediction(false);
+    }
   };
 
   return (
@@ -205,17 +173,18 @@ function Ai() {
 
         {/* AI Prediction Section */}
         <section className="ai-prediction">
-          <h3>AI Predicted Signal Timings</h3>
-          {/* Conditionally render the chart if showChart is true */}
-          {showChart && chartData ? (
-            <Bar data={chartData} />
-          ) : (
-            <p>No AI prediction yet. Click the button below to run AI prediction.</p>
-          )}
-          <button onClick={runAIPrediction} className="run-ai-btn">
-            Run AI Prediction
+        <div className="ai-container">
+        <h2>AI-Powered Traffic Signal Prediction</h2>
+        <div>
+          <button className='run-ai-btn' onClick={runAIPrediction} disabled={isLoadingPrediction}>
+            {isLoadingPrediction ? <FaSpinner className="loading-icon" /> : 'Run AI Prediction'}
           </button>
-        </section>
+            {responseMessage && <p>{responseMessage}</p>}
+            {/* Conditionally render the chart when data is available */}
+            {chartData && <Bar data={chartData} />}
+        </div>
+      </div>
+      </section>
       </div>
     </div>
   );
