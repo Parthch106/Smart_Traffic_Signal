@@ -1,8 +1,8 @@
 {
     "circle1": {
-        "signal1": 60,
-        "signal2": 90,
-        "signal3": 45,
-        "signal4": 120
+        "signal1": 40,
+        "signal2": 30,
+        "signal3": 60,
+        "signal4": 45
     }
 }
