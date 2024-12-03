@@ -151,7 +151,7 @@ function Googleapi() {
       />
       <button className='fetch-cir' onClick={() => fetchSpecificCircleData(circle)}>Fetch Circle Data</button>
 
-      <h3 className='h3-gapi'>Want to change circle signals time?</h3>
+      <h3 className='h3-gapi'>Change circle signals time</h3>
       {!editMode && (
         <button className='change-cir' onClick={handleEditMode} >
           Change Circle Data
